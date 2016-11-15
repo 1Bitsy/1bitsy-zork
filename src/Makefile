@@ -36,6 +36,10 @@ CPPFLAGS += -Wno-parentheses -Werror -Wno-error=char-subscripts -std=gnu11
 
 include ../libopencm3.target.mk
 
+# Ancient C code is full of undefined behavior.  Don't let the optimizer
+# touch anything.
+CFLAGS := $(CFLAGS:-O%=-O0)
+
 textarray.h: gen-textarray.py dtextc.dat
 	python3.5 gen-textarray.py dtextc.dat > $@
 
